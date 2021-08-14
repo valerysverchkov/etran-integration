@@ -1,0 +1,17 @@
+scheduled:
+  cron:
+    invoice: 0 0 * * * ?
+service:
+  ibpd:
+    uri:
+      url: ibpd.gpn.ru
+      path:
+    jwt:
+  etran:
+    uri:
+      url: etran.esb.gpn.ru
+      path:
+        invoice: /invoice
+        invoiceStatus: /invoiceStatus
+    login: user
+    password: pass
