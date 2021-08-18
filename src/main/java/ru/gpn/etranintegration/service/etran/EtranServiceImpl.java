@@ -5,10 +5,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.gpn.etranintegration.client.EtranClient;
 import ru.gpn.etranintegration.model.etran.InvoiceRequest;
 import ru.gpn.etranintegration.model.etran.InvoiceResponse;
 import ru.gpn.etranintegration.model.etran.InvoiceStatusRequest;
 import ru.gpn.etranintegration.model.etran.InvoiceStatusResponse;
+import ru.gpn.etranintegration.service.etran.auth.EtranAuthService;
+
 import java.time.LocalDateTime;
 
 /**
@@ -18,7 +21,8 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 class EtranServiceImpl implements EtranService {
 
-    private final RestTemplate restTemplate;
+    private final EtranAuthService etranAuthService;
+    private final EtranClient etranClient;
 
     @Value("${service.etran.login}")
     private char[] login;
@@ -26,20 +30,14 @@ class EtranServiceImpl implements EtranService {
     @Value("${service.etran.password}")
     private char[] password;
 
-    @Value("${service.etran.uri.url}")
-    private String url;
-
     /**
      * @param currentDay Date by which the search for invoice numbers is performed in ETRAN
      * @return Numbers of invoices for the current day
      */
     @Override
     public InvoiceStatusResponse getInvoiceStatus(LocalDateTime currentDay) {
-        InvoiceStatusRequest invoiceStatusRequest = prepareInvoiceStatusRequest(currentDay);
-        //TODO: base realisation
-        ResponseEntity<InvoiceStatusResponse> invoiceStatusResponseEntity =
-                restTemplate.postForEntity(url, invoiceStatusRequest, InvoiceStatusResponse.class);
-        return invoiceStatusResponseEntity.getBody();
+        String token = etranAuthService.getToken();
+        return etranClient.getInvoiceStatus(prepareInvoiceStatusRequest(currentDay), token);
     }
 
     /**
@@ -48,8 +46,8 @@ class EtranServiceImpl implements EtranService {
      */
     @Override
     public InvoiceResponse getInvoice(String invoiceId) {
-        InvoiceRequest invoiceRequest = prepareInvoiceRequest(invoiceId);
-        return null;
+        String token = etranAuthService.getToken();
+        return etranClient.getInvoice(prepareInvoiceRequest(invoiceId), token);
     }
 
     /**

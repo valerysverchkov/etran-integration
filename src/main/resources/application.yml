@@ -8,7 +8,17 @@ service:
       path:
     jwt:
   etran:
+    auth:
+      uri: https://sso-esb-sso-kspd.apps.esb-t.gazprom-neft.local/auth/realms/demorealm/protocol/openid-connect/token
+      grantType: password
+      username: luis-mci
+      password: test
+      clientId: luis
+      clientSecret:
     uri:
+      action:
+        invoice: /invoiceAction
+        invoiceStatus: /invoiceStatusAction
       url: etran.esb.gpn.ru
       path:
         invoice: /invoice

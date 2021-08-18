@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 class RestTemplateConfig {
 
     @Bean
-    public RestTemplate restTemplateEtran() {
+    public RestTemplate templateEtranAuth() {
         return new RestTemplateBuilder().build();
     }
 
