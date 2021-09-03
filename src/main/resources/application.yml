@@ -2,12 +2,7 @@ scheduled:
   cron:
     invoice: 0 0 * * * ?
 service:
-  ibpd:
-    uri:
-      url: ibpd.gpn.ru
-      path:
-    jwt:
-  etran:
+  esb:
     auth:
       uri: https://sso-esb-sso-kspd.apps.esb-t.gazprom-neft.local/auth/realms/demorealm/protocol/openid-connect/token
       grantType: password
@@ -15,6 +10,19 @@ service:
       password: test
       clientId: luis
       clientSecret:
+  ibpd:
+    uri:
+      url: ibpd.gpn.ru
+      path:
+    jwt:
+  etran:
+    auth:
+      -
+        login: login1
+        password: pass1
+      -
+        login: login2
+        password: pass2
     uri:
       action:
         invoice: /invoiceAction
@@ -23,5 +31,11 @@ service:
       path:
         invoice: /invoice
         invoiceStatus: /invoiceStatus
-    login: user
-    password: pass
+
+infinispan:
+  remote:
+    auth-username: admin
+    auth-password: admin
+    use-auth: true
+    server-list: etran-int-cache:11222
+    cacheName: etran-int

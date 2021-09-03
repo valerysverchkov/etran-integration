@@ -1,9 +1,9 @@
-package ru.gpn.etranintegration.model.etran;
+package ru.gpn.etranintegration.model.esb;
 
 import lombok.Data;
 
 @Data
-public class EtranAuthRequest {
+public class EsbAuthRequest {
 
     private String grantType;
     private String username;

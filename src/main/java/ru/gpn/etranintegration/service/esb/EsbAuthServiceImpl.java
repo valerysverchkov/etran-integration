@@ -1,4 +1,4 @@
-package ru.gpn.etranintegration.service.etran.auth;
+package ru.gpn.etranintegration.service.esb;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,50 +9,50 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import ru.gpn.etranintegration.model.etran.EtranAuthRequest;
+import ru.gpn.etranintegration.model.esb.EsbAuthRequest;
 
 @RequiredArgsConstructor
 @Service
-class EtranAuthServiceImpl implements EtranAuthService {
+class EsbAuthServiceImpl implements EsbAuthService {
 
     private final RestTemplate templateEtranAuth;
 
-    @Value("${service.etran.auth.uri}")
+    @Value("${service.esb.auth.uri}")
     private String uri;
 
-    @Value("${service.etran.auth.grantType}")
+    @Value("${service.esb.auth.grantType}")
     private String grantType;
 
-    @Value("${service.etran.auth.username}")
+    @Value("${service.esb.auth.username}")
     private String username;
 
-    @Value("${service.etran.auth.password}")
+    @Value("${service.esb.auth.password}")
     private String password;
 
-    @Value("${service.etran.auth.clientId}")
+    @Value("${service.esb.auth.clientId}")
     private String clientId;
 
-    @Value("${service.etran.auth.clientSecret}")
+    @Value("${service.esb.auth.clientSecret}")
     private String clientSecret;
 
     @Override
     public String getToken() {
         ResponseEntity<String> responseEntityToken = templateEtranAuth.exchange(uri, HttpMethod.POST,
-                prepareEtranAuthRequest(), String.class);
+                prepareEsbAuthRequest(), String.class);
         //TODO: add error handler
         return responseEntityToken.getBody();
     }
 
-    private HttpEntity<String> prepareEtranAuthRequest() {
-        EtranAuthRequest etranAuthRequest = new EtranAuthRequest();
-        etranAuthRequest.setGrantType(grantType);
-        etranAuthRequest.setUsername(username);
-        etranAuthRequest.setPassword(password);
-        etranAuthRequest.setClientId(clientId);
-        etranAuthRequest.setClientSecret(clientSecret);
+    private HttpEntity<String> prepareEsbAuthRequest() {
+        EsbAuthRequest esbAuthRequest = new EsbAuthRequest();
+        esbAuthRequest.setGrantType(grantType);
+        esbAuthRequest.setUsername(username);
+        esbAuthRequest.setPassword(password);
+        esbAuthRequest.setClientId(clientId);
+        esbAuthRequest.setClientSecret(clientSecret);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
-        return new HttpEntity<>(etranAuthRequest.toString(), httpHeaders);
+        return new HttpEntity<>(esbAuthRequest.toString(), httpHeaders);
     }
 
 }

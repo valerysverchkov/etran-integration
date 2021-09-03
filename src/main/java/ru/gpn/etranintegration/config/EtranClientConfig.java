@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import ru.gpn.etranintegration.client.EtranClient;
 
+import javax.xml.transform.TransformerFactory;
+
 @Configuration
 class EtranClientConfig {
 
@@ -32,15 +34,16 @@ class EtranClientConfig {
         etranClient.setInvoiceAction(etranUrl + etranActionInvoice);
         etranClient.setUriInvoiceStatus(etranUrl + etranPathInvoiceStatus);
         etranClient.setInvoiceStatusAction(etranUrl + etranActionInvoiceStatus);
-        etranClient.setMarshaller(marshaller());
+        etranClient.setTransformerFactory(TransformerFactory.newInstance());
+        //etranClient.setMarshaller(marshaller());
         return etranClient;
     }
 
-    @Bean
-    public Jaxb2Marshaller marshaller() {
-        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setContextPath("");
-        return marshaller;
-    }
+//    @Bean
+//    public Jaxb2Marshaller marshaller() {
+//        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+//        marshaller.setContextPath("ru.gpn.etranintegration.model.etran");
+//        return marshaller;
+//    }
 
 }

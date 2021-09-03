@@ -1,4 +1,25 @@
-version: '0.1'
+version: '3.0'
+
 services:
   etran-integration:
-    build: Dockerfile
+    container_name: etran-int-service
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    networks:
+      - etran-int
+  data-grid:
+    container_name: etran-int-cache
+    restart: always
+    image: jboss/infinispan-server
+    ports:
+      - "11222:11222"
+    environment:
+      - USER="admin"
+      - PASS="admin"
+    networks:
+      - etran-int
+
+networks:
+  etran-int:

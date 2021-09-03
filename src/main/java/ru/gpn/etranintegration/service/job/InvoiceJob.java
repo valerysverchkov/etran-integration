@@ -8,7 +8,7 @@ import ru.gpn.etranintegration.service.process.Process;
 @Component
 class InvoiceJob implements Job {
 
-    public InvoiceJob(@Qualifier("invoiceProcess") Process invoiceProcess) {
+    InvoiceJob(@Qualifier("invoiceProcess") Process invoiceProcess) {
         this.invoiceProcess = invoiceProcess;
     }
 

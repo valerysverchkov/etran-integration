@@ -1,18 +1,23 @@
 package ru.gpn.etranintegration.model.etran;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import java.time.LocalDateTime;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 
 @Data
+@XmlRootElement(name = "invoiceStatus")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(propOrder={"fromDate", "toDate"})
 public class InvoiceStatusRequest {
 
-    private String login;
-    private String password;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss")
-    private LocalDateTime fromDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss")
-    private LocalDateTime toDate;
+    @XmlElement
+    private ValueAttribute fromDate;
+
+    @XmlElement
+    private ValueAttribute toDate;
 
 }
