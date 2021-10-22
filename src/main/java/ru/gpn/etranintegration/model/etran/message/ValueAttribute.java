@@ -1,4 +1,4 @@
-package ru.gpn.etranintegration.model.etran;
+package ru.gpn.etranintegration.model.etran.message;
 
 import lombok.Data;
 import javax.xml.bind.annotation.XmlAccessType;

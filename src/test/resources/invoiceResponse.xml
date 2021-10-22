@@ -1,0 +1,569 @@
+<GetBlockResponse>
+    <Text>
+        <getInvoiceReply version="1.0">
+            <invoiceID value="%s"/>
+            <invUNP value=""/>
+            <invDateCreate value=""/>
+            <invoiceStateID value=""/>
+            <invoiceState value=""/>
+            <invLastOper value="%s"/>
+            <invNeedForECP value=""/>
+            <invECPSign value=""/>
+            <invTypeID value=""/>
+            <invTypeName value=""/>
+            <invBlankTypeID value=""/>
+            <invBlankType value=""/>
+            <invBlankTypeName value=""/>
+            <invSenderID value=""/>
+            <invSenderOKPO value=""/>
+            <invSenderName value=""/>
+            <invSenderAddressID value=""/>
+            <invSenderAddress value=""/>
+            <invSenderTGNL value=""/>
+            <invClaimID value=""/>
+            <invClaimNumber value=""/>
+            <invOtprNum value=""/>
+            <invPodNum value=""/>
+            <invFromCountryCode value=""/>
+            <invFromCountryName value=""/>
+            <invFromPointCode value=""/>
+            <invFromPointName value=""/>
+            <invFromStationCode value=""/>
+            <invFromStationName value=""/>
+            <invFromPortCode value=""/>
+            <invFromPortName value=""/>
+            <invFromLoadWay value=""/>
+            <invRecipID value=""/>
+            <invRecipOKPO value=""/>
+            <invRecipName value=""/>
+            <invRecipAddressID value=""/>
+            <invRecipAddress value=""/>
+            <invRecipTGNL value=""/>
+            <invToCountryCode value=""/>
+            <invToCountryName value=""/>
+            <invToPointCode value=""/>
+            <invToPointName value=""/>
+            <invToStationCode value=""/>
+            <invToStationName value=""/>
+            <invToPortCode value=""/>
+            <invToPortName value=""/>
+            <invToLoadWay value=""/>
+            <invSendSpeedID value=""/>
+            <invSendSpeedName value=""/>
+            <invSendKindID value=""/>
+            <invSendKindName value=""/>
+            <invPayPlaceID value=""/>
+            <invPayPlaceName value=""/>
+            <invPayFormID value=""/>
+            <invPayFormName value=""/>
+            <invIxTariffCode value=""/>
+            <invIxTariffCodeGDY value=""/>
+            <invPlanCarTypeID value=""/>
+            <invPlanCarTypeCode value=""/>
+            <invPlanCarTypeName value=""/>
+            <invPlanCarCount value=""/>
+            <invPlanCarOwnerTypeID value=""/>
+            <invPlanCarOwnerTypeName value=""/>
+            <invPlanContTonnage value=""/>
+            <invContPlanSizeBig value=""/>
+            <invPlanContCount value=""/>
+            <invPlanContOwnerTypeID value=""/>
+            <invPlanContOwnerTypeName value=""/>
+            <invLoadTypeID value=""/>
+            <invLoadTypeName value=""/>
+            <invAnnounceValue value=""/>
+            <invAVCurrencyID value=""/>
+            <invLoadAssetsID value=""/>
+            <invLoadAssetsName value=""/>
+            <invPlanOutsizeCode value=""/>
+            <invDispKindID value=""/>
+            <invRespPerson value=""/>
+            <invPayPlaceRwCode value=""/>
+            <invPayPlaceRwName value=""/>
+            <invPayerCode value=""/>
+            <invPayerId value=""/>
+            <invPayerName value=""/>
+            <invPayerAccount value=""/>
+            <invPayerBank value=""/>
+            <invFRWSubCode value=""/>
+            <invFRWSubCode2 value=""/>
+            <invLoadClaim_ID value=""/>
+            <invLoadClaim_Number value=""/>
+            <invVizaNumber value=""/>
+            <invVizaNumberFull value=""/>
+            <invVizaDate value=""/>
+            <invVizaOrg value=""/>
+            <invVizaOrgName value=""/>
+            <invVizaPerson value=""/>
+            <invVizaPost value=""/>
+            <invVizaNote value=""/>
+            <invDateExpire value=""/>
+            <invScaleTypeID value=""/>
+            <invScaleTypeName value=""/>
+            <invScalePersonID value=""/>
+            <invScalePersonName value=""/>
+            <invScalePrecision value=""/>
+            <invCheckDepID value=""/>
+            <invCheckDepName value=""/>
+            <invDeplPerson value=""/>
+            <invFasteningID value=""/>
+            <invDepNormDocID value=""/>
+            <invDepNormDocName value=""/>
+            <invDepPart value=""/>
+            <invDepArc value=""/>
+            <invDepSec value=""/>
+            <invDepCond value=""/>
+            <invNTU_MTUNumber value=""/>
+            <invNTU_MTUDate value=""/>
+            <invNTUClearance value=""/>
+            <invMTUScheme value=""/>
+            <invFastener>
+                <fastenerID value=""/>
+                <fastenerName value=""/>
+                <fastenerCount value=""/>
+                <fastenerProperty>
+                    <propID value=""/>
+                    <propName value=""/>
+                    <propValue value=""/>
+                </fastenerProperty>
+            </invFastener>
+            <invDateLoad value=""/>
+            <invFactDateToLoad value=""/>
+            <invFactDateToLoadLocal value=""/>
+            <invDateReceiving value=""/>
+            <invDateReceivingLocal value=""/>
+            <invFactDateAccept value=""/>
+            <invFIOAccept value=""/>
+            <invToCountryEmptyCode value=""/>
+            <invToCountryEmptyName value=""/>
+            <invToStationEmptyCode value=""/>
+            <invToStationEmptyName value=""/>
+            <invFreight>
+                <freightCode value=""/>
+                <freightName value=""/>
+                <freightExactName value=""/>
+                <freightGNGID value=""/>
+                <freightGNGCode value=""/>
+                <freightGNGName value=""/>
+                <freightAdditional value=""/>
+                <freightPackTypeID value=""/>
+                <freightPackTypeName value=""/>
+                <freightPocketCount value=""/>
+                <freightPackageCount value=""/>
+                <freightWeight value=""/>
+                <freightRealWeight value=""/>
+                <freightWeightStdGross value=""/>
+                <freightWeightStdNet value=""/>
+                <freightMaxLength value=""/>
+                <freightMaxWidth value=""/>
+                <freightMaxHeight value=""/>
+                <freightSendersMark value=""/>
+                <freightDangerSignID value=""/>
+                <freightDangerSignName value=""/>
+                <freightDangerID value=""/>
+                <freightDangerName value=""/>
+                <freightAccidentCardID value=""/>
+                <freightAccidentCard value=""/>
+                <freightCLS>
+                    <clsTranspClauseID value=""/>
+                    <clsTranspClauseName value=""/>
+                    <clsCustomText value=""/>
+                </freightCLS>
+                <freightGTDNumber value=""/>
+                <freightGTDPosition value=""/>
+                <freightBundling value=""/>
+            </invFreight>
+            <invDistance>
+                <distCountryCode value=""/>
+                <distCountryName value=""/>
+                <distStationCountryId value=""/>
+                <distStationCode value=""/>
+                <distStationName value=""/>
+                <distPortCode value=""/>
+                <distPortName value=""/>
+                <distLoadWay value=""/>
+                <distTrackTypeID value=""/>
+                <distTrackTypeName value=""/>
+                <distTranspTypeID value=""/>
+                <distTranspTypeName value=""/>
+                <distMinWay value=""/>
+                <distRecipID value=""/>
+                <distRecipOKPO value=""/>
+                <distRecipName value=""/>
+                <distRecipAddressID value=""/>
+                <distRecipAddress value=""/>
+                <distRecipTGNL value=""/>
+                <distPayerId value=""/>
+                <distPayerCode value=""/>
+                <distPayerName value=""/>
+                <distPayPlaceRWID value=""/>
+                <distFRWSubCode value=""/>
+                <distSign value=""/>
+                <distCarrierID value=""/>
+                <distPowerKind value=""/>
+            </invDistance>
+            <invSPC>
+                <spcTranspClauseID value=""/>
+                <spcTranspClauseDesc value=""/>
+                <spcCustomText value=""/>
+                <spcNumber value=""/>
+                <spcDate value=""/>
+            </invSPC>
+            <invDOC>
+                <docTypeID value=""/>
+                <docNumber value=""/>
+                <docDate value=""/>
+                <dayCount value=""/>
+                <ModelWag value=""/>
+                <docVet value=""/>
+            </invDOC>
+            <invNoteASKM>
+                <noteNTU_MTUNumber value=""/>
+                <noteNTU_MTUDate value=""/>
+                <noteNTUClearance value=""/>
+                <noteMTUScheme value=""/>
+                <noteFastener>
+                    <fastenerID value=""/>
+                    <fastenerName value=""/>
+                    <fastenerMin value=""/>
+                    <fastenerMax value=""/>
+                    <fastenerProperty>
+                        <propID value=""/>
+                        <propName value=""/>
+                        <propValue value=""/>
+                    </fastenerProperty>
+                </noteFastener>
+            </invNoteASKM>
+            <invDev>
+                <devTypeID value=""/>
+                <devTypeName value=""/>
+                <devNumber value=""/>
+                <devOwnerCountryCode value=""/>
+                <devOwnerCountryName value=""/>
+                <devOwnerTypeID value=""/>
+                <devOwnerTypeName value=""/>
+                <devOwnerOKPO value=""/>
+                <devOwnerName value=""/>
+                <devQuantity value=""/>
+                <devReturn value=""/>
+            </invDev>
+            <invCont>
+                <contClaimNumOtp value=""/>
+                <contClaimNumPod value=""/>
+                <contNumber value=""/>
+                <contTonnageID value=""/>
+                <contTonnage value=""/>
+                <contCarOrder value=""/>
+                <contTypeBig value=""/>
+                <contTypeBigName value=""/>
+                <contSizeBig value=""/>
+                <contWidthFoot value=""/>
+                <contWeightDep value=""/>
+                <contPocketCount value=""/>
+                <contPlacesCount value=""/>
+                <contWeightGross value=""/>
+                <contWeightNet value=""/>
+                <contVolume value=""/>
+                <contOwnerCountryCode value=""/>
+                <contOwnerCountryName value=""/>
+                <contOwnerTypeID value=""/>
+                <contOwnerTypeName value=""/>
+                <contOwnerId value=""/>
+                <contOwnerOKPO value=""/>
+                <contOwnerName value=""/>
+                <contCSL>
+                    <sealTypeID value=""/>
+                    <sealTypeName value=""/>
+                    <sealMarks value=""/>
+                    <sealQuantity value=""/>
+                    <sealYear value=""/>
+                    <sealOwnerTypeID value=""/>
+                    <sealOwnerTypeName value=""/>
+                    <sealRailwayID value=""/>
+                    <sealRailwayCode value=""/>
+                    <sealRailwayName value=""/>
+                </contCSL>
+            </invCont>
+            <invCar>
+                <carClaimId value=""/>
+                <carClaimNumOtp value=""/>
+                <carClaimNumPod value=""/>
+                <carTypeID value=""/>
+                <carTypeCode value=""/>
+                <carTypeName value=""/>
+                <carNumber value=""/>
+                <carOrder value=""/>
+                <carOwnerCountryCode value=""/>
+                <carOwnerCountryName value=""/>
+                <carOwnerTypeID value=""/>
+                <carOwnerTypeName value=""/>
+                <carOwnerID value=""/>
+                <carOwnerOKPO value=""/>
+                <carOwnerName value=""/>
+                <carTenantID value=""/>
+                <carTenantOKPO value=""/>
+                <carTenantName value=""/>
+                <carPocketCount value=""/>
+                <carPlacesCount value=""/>
+                <carTonnage value=""/>
+                <carAxles value=""/>
+                <carVolume value=""/>
+                <carWeightDep value=""/>
+                <carWeightDepReal value=""/>
+                <carWeightGross value=""/>
+                <carWeightNet value=""/>
+                <carWeightAddDev value=""/>
+                <carAddDevWithGoods value=""/>
+                <carPriorFreightCode value=""/>
+                <carPriorFreightName value=""/>
+                <carGuide>
+                    <guideFIO value=""/>
+                    <guidePassportSer value=""/>
+                    <guidePassportNum value=""/>
+                    <guideWarrantNum value=""/>
+                </carGuide>
+                <carGuideCount value=""/>
+                <carOutsizeCode value=""/>
+                <carFrameWeight value=""/>
+                <carFrameWagNum value=""/>
+                <carTopHeight value=""/>
+                <carMainShtabQuantity value=""/>
+                <carMainShtabHeight value=""/>
+                <carHeadShtabQuantity value=""/>
+                <carForestVolume value=""/>
+                <carLiquidTemperature value=""/>
+                <carLiquidHeight value=""/>
+                <carLiquidDensity value=""/>
+                <carLiquidVolume value=""/>
+                <carTankType value=""/>
+                <carRefNum value=""/>
+                <carRefCount value=""/>
+                <carRolls value=""/>
+                <carConnectCode value=""/>
+                <carIsCover value=""/>
+                <carSign value=""/>
+                <carLength value=""/>
+                <carDepNormDocID value=""/>
+                <carDepNormDocName value=""/>
+                <carDepPart value=""/>
+                <carDepArc value=""/>
+                <carDepSec value=""/>
+                <carDepCond value=""/>
+                <carNTU_MTUNumber value=""/>
+                <carNTU_MTUDate value=""/>
+                <carNTUClearance value=""/>
+                <carMTUScheme value=""/>
+                <carFastener>
+                    <fastenerID value=""/>
+                    <fastenerName value=""/>
+                    <fastenerCount value=""/>
+                    <fastenerProperty>
+                        <propID value=""/>
+                        <propName value=""/>
+                        <propValue value=""/>
+                    </fastenerProperty>
+                </carFastener>
+                <carSPC>
+                    <spcTranspClauseID value=""/>
+                    <spcTranspClauseName value=""/>
+                    <spcTypeName value=""/>
+                    <spcCustomText value=""/>
+                </carSPC>
+                <carCSL>
+                    <sealTypeID value=""/>
+                    <sealTypeName value=""/>
+                    <sealMarks value=""/>
+                    <sealQuantity value=""/>
+                    <sealYear value=""/>
+                    <sealOwnerTypeID value=""/>
+                    <sealOwnerTypeName value=""/>
+                    <sealRailwayID value=""/>
+                    <sealRailwayCode value=""/>
+                    <sealRailwayName value=""/>
+                </carCSL>
+            </invCar>
+            <invAuto>
+                <AutoVIN value=""/>
+                <autoLength value=""/>
+                <autoWeightDep value=""/>
+                <autoWeight value=""/>
+                <autoPlacesQuantity value=""/>
+                <autoITETypeID value=""/>
+                <autoCarOrder value=""/>
+                <autoCSL>
+                    <sealTypeID value=""/>
+                    <sealTypeName value=""/>
+                    <sealMarks value=""/>
+                    <sealQuantity value=""/>
+                    <sealYear value=""/>
+                    <sealOwnerTypeID value=""/>
+                    <sealOwnerTypeName value=""/>
+                    <sealRailwayID value=""/>
+                    <sealRailwayCode value=""/>
+                    <sealRailwayName value=""/>
+                </autoCSL>
+                <autoGuide>
+                    <guideFIO value=""/>
+                    <guidePassportSer value=""/>
+                    <guidePassportNum value=""/>
+                    <guideWarrantNum value=""/>
+                </autoGuide>
+            </invAuto>
+            <invTranspClause>
+                <transpClauseId value=""/>
+                <transpClauseName value=""/>
+                <transpClauseTarifMark value=""/>
+                <transpClauseCustomText value=""/>
+            </invTranspClause>
+            <invGuide>
+                <guideFIO value=""/>
+                <guidePassportSer value=""/>
+                <guidePassportNum value=""/>
+                <guideWarrantNum value=""/>
+            </invGuide >
+            <wayCLS>
+                <wayTranspClauseID value=""/>
+                <wayTranspClauseName value=""/>
+                <wayCustomText value=""/>
+                <wayWagNumber value=""/>
+                <wayRwPanish value=""/>
+            </wayCLS>
+            <invDue>
+                <dueTypeID value=""/>
+                <dueType value=""/>
+                <carNumber value=""/>
+                <contNumber value=""/>
+                <dueDistanceName value=""/>
+                <dueCalcDistanceName value=""/>
+                <dueCalcDistStCode value=""/>
+                <dueCalcDistStName value=""/>
+                <distMinWay value=""/>
+                <dueWeightCalc value=""/>
+                <dueAmount value=""/>
+                <dueAmountKz value=""/>
+                <dueCurrencyId value=""/>
+                <dueCurrency value=""/>
+                <dueScheme value=""/>
+                <dueTarifRate value=""/>
+                <dueSumInfr value=""/>
+                <dueSchemeNumWag value=""/>
+                <dueTarifRateWag value=""/>
+                <dueSumWag value=""/>
+                <dueTarifCoef value=""/>
+                <dueTaxSum value=""/>
+                <dueTaxAble value=""/>
+                <dueTaxVal value=""/>
+                <dueTaxSumKz value=""/>
+                <dueTaxAbleKz value=""/>
+                <dueTaxValKz value=""/>
+                <dueFreightTarifClass value=""/>
+                <dueTarifDiscount value=""/>
+                <dueTarifPercent value=""/>
+                <dueTarifCode value=""/>
+                <dueCurrencyRate value=""/>
+                <dueIsRZDDue value=""/>
+                <dueTarifDiscountGDY value=""/>
+                <dueTarifPercentGDY value=""/>
+                <dueTarifCodeGDY value=""/>
+            </invDue>
+            <invDueArrive>
+                <dueTypeID value=""/>
+                <dueType value=""/>
+                <carNumber value=""/>
+                <contNumber value=""/>
+                <dueDistanceName value=""/>
+                <dueCalcDistanceName value=""/>
+                <dueCalcDistStCode value=""/>
+                <dueCalcDistStName value=""/>
+                <distMinWay value=""/>
+                <dueWeightCalc value=""/>
+                <dueAmount value=""/>
+                <dueAmountKz value=""/>
+                <dueCurrencyId value=""/>
+                <dueCurrency value=""/>
+                <dueScheme value=""/>
+                <dueTarifRate value=""/>
+                <dueSumInfr value=""/>
+                <dueSchemeNumWag value=""/>
+                <dueTarifRateWag value=""/>
+                <dueSumWag value=""/>
+                <dueTarifCoef value=""/>
+                <dueTaxSum value=""/>
+                <dueTaxAble value=""/>
+                <dueTaxVal value=""/>
+                <dueTaxSumKz value=""/>
+                <dueTaxAbleKz value=""/>
+                <dueTaxValKz value=""/>
+                <dueFreightTarifClass value=""/>
+                <dueTarifDiscount value=""/>
+                <dueTarifPercent value=""/>
+                <dueTarifCode value=""/>
+                <dueCurrencyRate value=""/>
+                <dueIsRZDDue value=""/>
+                <dueTarifDiscountGDY value=""/>
+                <dueTarifPercentGDY value=""/>
+                <dueTarifCodeGDY value=""/>
+            </invDueArrive>
+            <invDueEnter>
+                <dueAmount value=""/>
+                <dueAmountVal value=""/>
+                <dueCurrency value=""/>
+                <dueCurrencyName value=""/>
+                <dueDueType value=""/>
+                <dueDueTypeName value=""/>
+                <carNumber value=""/>
+                <dueRate value=""/>
+                <dueTaxSum value=""/>
+                <dueTaxVal value=""/>
+            </invDueEnter>
+            <invJoint>
+                <jntDate value=""/>
+                <jntStationCode value=""/>
+                <jntStationName value=""/>
+                <jntCarrierID value=""/>
+            </invJoint>
+            <invMarx>
+                <mxCount value=""/>
+                <mxStationType value=""/>
+            </invMarx >
+            <invNumber value=""/>
+            <invUniqueNumber value=""/>
+            <invSignRouteNumCirc value=""/>
+            <invRouteNumCirc value=""/>
+            <invRouteName value=""/>
+            <invRouteTypeName value=""/>
+            <invGoodsCashier value=""/>
+            <invGoodsCashierPost value=""/>
+            <invDateReady value=""/>
+            <invDateReadyLocal value=""/>
+            <invDateDeparture value=""/>
+            <invRtId value=""/>
+            <invDateCustom value=""/>
+            <invDateArrive value=""/>
+            <invDateArriveLocal value=""/>
+            <invDateDelivery value=""/>
+            <invDateDeliveryLocal value=""/>
+            <invDateRaskrEl value=""/>
+            <invDateRegister value=""/>
+            <invDateRegisterLocal value=""/>
+            <invDateNotification value=""/>
+            <invNotification value=""/>
+            <invNum410 value=""/>
+            <invKPZ value=""/>
+            <invParentID value=""/>
+            <invParentNumber value=""/>
+            <invOper>
+                <operDate value=""/>
+                <operResult value=""/>
+                <operRemark value=""/>
+            </invOper>
+            <lnk>
+                <typeID value=""/>
+                <DocId1 value=""/>
+                <DocId2 value=""/>
+            </lnk>
+            <warning value=""/>
+        </getInvoiceReply>
+    </Text>
+    <return>true</return>
+</GetBlockResponse>

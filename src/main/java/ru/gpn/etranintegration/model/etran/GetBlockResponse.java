@@ -7,17 +7,16 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 @Data
-@XmlRootElement(name = "invoiceStatus")
+@XmlRootElement(name = "GetBlockResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder={"fromDate", "toDate"})
-public class InvoiceStatusRequest {
+@XmlType(propOrder={"message", "result"})
+public class GetBlockResponse {
 
-    @XmlElement
-    private ValueAttribute fromDate;
+    @XmlElement(name = "Text")
+    private String message;
 
-    @XmlElement
-    private ValueAttribute toDate;
+    @XmlElement(name = "return")
+    private Boolean result;
 
 }

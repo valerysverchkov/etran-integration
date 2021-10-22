@@ -1,4 +1,4 @@
-package ru.gpn.etranintegration.model.etran;
+package ru.gpn.etranintegration.model.etran.message;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -12,5 +12,9 @@ public class InvoiceResponse {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss")
     private LocalDateTime lastOperDate;
+
+    private String message;
+
+    private boolean errorAuth;
 
 }

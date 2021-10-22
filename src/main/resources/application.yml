@@ -1,41 +1,36 @@
 scheduled:
   cron:
-    invoice: 0 0 * * * ?
+    invoice: ${CRON_INVOICE}
 service:
   esb:
+    timeOut: 5
+    requestCnt: 3
     auth:
-      uri: https://sso-esb-sso-kspd.apps.esb-t.gazprom-neft.local/auth/realms/demorealm/protocol/openid-connect/token
-      grantType: password
-      username: luis-mci
-      password: test
-      clientId: luis
-      clientSecret:
+      uri: ${ESB_AUTH_URI}
+      grantType: ${ESB_AUTH_GRANT_TYPE}
+      username: ${ESB_AUTH_USERNAME}
+      password: ${ESB_AUTH_PASSWORD}
+      clientId: ${ESB_AUTH_CLIENT_ID}
+      clientSecret: ${ESB_AUTH_CLIENT_SECRET}
   ibpd:
+    timeOut: 5
+    requestCnt: 3
     uri:
-      url: ibpd.gpn.ru
-      path:
-    jwt:
+      lastOperDate: ${IBPD_URI_LAST_OPER_DATE}
+      updateInvoice: ${IBPD_URI_UPDATE_INVOICE}
+      newInvoice: ${IBPD_URI_NEW_INVOICE}
+    jwt: ${IBPD_JWT}
   etran:
     auth:
       -
-        login: login1
-        password: pass1
+        login: ${ETRAN_AUTH_LOGIN_1}
+        password: ${ETRAN_AUTH_PASSWORD_1}
       -
-        login: login2
-        password: pass2
+        login: ${ETRAN_AUTH_LOGIN_2}
+        password: ${ETRAN_AUTH_PASSWORD_2}
     uri:
-      action:
-        invoice: /invoiceAction
-        invoiceStatus: /invoiceStatusAction
-      url: etran.esb.gpn.ru
+      url: ${ETRAN_URL}
       path:
-        invoice: /invoice
-        invoiceStatus: /invoiceStatus
-
-infinispan:
-  remote:
-    auth-username: admin
-    auth-password: admin
-    use-auth: true
-    server-list: etran-int-cache:11222
-    cacheName: etran-int
+        invoice: ${ETRAN_PATH_INVOICE}
+        invoiceStatus: ${ETRAN_PATH_INVOICE}
+    cntRequest: ${ETRAN_CNT_REQ}

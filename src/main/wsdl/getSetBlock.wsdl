@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" name="IEtranSysservice" targetNamespace="http://tempuri.org/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ns1="urn:SysEtranIntf">
+    <message name="SendBlockRequest">
+        <part name="Text" type="xs:string"/>
+    </message>
+    <message name="SendBlockResponse">
+        <part name="return" type="xs:boolean"/>
+    </message>
+    <message name="GetBlockRequest">
+        <part name="Login" type="xs:string"/>
+        <part name="Password" type="xs:string"/>
+        <part name="Text" type="xs:string"/>
+    </message>
+    <message name="GetBlockResponse">
+        <part name="Text" type="xs:string"/>
+        <part name="return" type="xs:boolean"/>
+    </message>
+    <portType name="IEtranSys">
+        <operation name="SendBlock">
+            <input message="tns:SendBlockRequest"/>
+            <output message="tns:SendBlockResponse"/>
+        </operation>
+        <operation name="GetBlock">
+            <input message="tns:GetBlockRequest"/>
+            <output message="tns:GetBlockResponse"/>
+        </operation>
+    </portType>
+    <binding name="IEtranSysbinding" type="tns:IEtranSys">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="SendBlock">
+            <soap:operation soapAction="urn:SysEtranInt" style="rpc"/>
+            <input>
+                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="SysEtranInt"/>
+            </input>
+            <output>
+                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="SysEtranInt"/>
+            </output>
+        </operation>
+        <operation name="GetBlock">
+            <soap:operation soapAction="urn:SysEtranInt" style="rpc"/>
+            <input>
+                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="SysEtranInt"/>
+            </input>
+            <output>
+                <soap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="SysEtranInt"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="IEtranSysservice">
+        <port name="IEtranSysPort" binding="tns:IEtranSysbinding">
+            <soap:address location="http://xxx.xxx.xxx.xxx:xxx/xxxxx"/>
+        </port>
+    </service>
+</definitions>

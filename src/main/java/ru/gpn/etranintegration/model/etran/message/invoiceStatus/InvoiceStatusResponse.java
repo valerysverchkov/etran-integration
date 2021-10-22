@@ -1,6 +1,7 @@
-package ru.gpn.etranintegration.model.etran;
+package ru.gpn.etranintegration.model.etran.message.invoiceStatus;
 
 import lombok.Data;
+import ru.gpn.etranintegration.model.etran.message.ValueAttribute;
 
 import javax.xml.bind.annotation.*;
 import java.util.List;
@@ -21,5 +22,7 @@ public class InvoiceStatusResponse {
 
     @XmlElement
     private ValueAttribute warning;
+
+    private boolean errorAuth;
 
 }

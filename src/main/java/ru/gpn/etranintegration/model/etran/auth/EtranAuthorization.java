@@ -1,4 +1,4 @@
-package ru.gpn.etranintegration.config;
+package ru.gpn.etranintegration.model.etran.auth;
 
 import lombok.Data;
 
@@ -7,5 +7,6 @@ public class EtranAuthorization {
 
     private String login;
     private String password;
+    private boolean valid;
 
 }

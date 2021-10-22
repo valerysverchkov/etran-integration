@@ -1,10 +1,8 @@
 package ru.gpn.etranintegration.service.cache;
 
-import java.util.List;
-
 public interface CacheService {
 
-    List<String> getInvoiceIds();
+    String getLastOperDateByInvoiceId(String invoiceId);
 
-    void reloadInvoiceIds(List<String> invoiceIds);
+    void setLastOperDateByInvoiceId(String invoiceId, String lastOperDate);
 }

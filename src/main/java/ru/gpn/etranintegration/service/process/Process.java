@@ -4,4 +4,6 @@ public interface Process {
 
     void processing();
 
+    void processingByInvoiceId(String invoiceId);
+
 }

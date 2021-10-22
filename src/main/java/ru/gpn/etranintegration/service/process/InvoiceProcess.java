@@ -3,19 +3,18 @@ package ru.gpn.etranintegration.service.process;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import ru.gpn.etranintegration.config.EtranAuthConfig;
-import ru.gpn.etranintegration.config.EtranAuthorization;
-import ru.gpn.etranintegration.model.etran.Invoice;
-import ru.gpn.etranintegration.model.etran.InvoiceResponse;
-import ru.gpn.etranintegration.model.etran.InvoiceStatusResponse;
-import ru.gpn.etranintegration.model.etran.ValueAttribute;
+import ru.gpn.etranintegration.model.etran.auth.EtranAuthorization;
+import ru.gpn.etranintegration.model.etran.message.invoiceStatus.Invoice;
+import ru.gpn.etranintegration.model.etran.message.InvoiceResponse;
+import ru.gpn.etranintegration.model.etran.message.invoiceStatus.InvoiceStatusResponse;
 import ru.gpn.etranintegration.service.cache.CacheService;
+import ru.gpn.etranintegration.service.esb.EsbAuthService;
 import ru.gpn.etranintegration.service.etran.EtranService;
 import ru.gpn.etranintegration.service.ibpd.IbpdService;
-import ru.gpn.etranintegration.service.util.CollectionUtils;
+
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,6 +25,7 @@ class InvoiceProcess implements Process {
     private final IbpdService ibpdService;
     private final CacheService cacheService;
     private final EtranAuthConfig etranAuthConfigs;
+    private final EsbAuthService esbAuthService;
 
     /**
      * This method processes actual invoices from ETRAN
@@ -33,65 +33,93 @@ class InvoiceProcess implements Process {
     @Override
     public void processing() {
         log.info("Start Invoice processing");
-        for (EtranAuthorization etranAuthorization : etranAuthConfigs.getEtranAuthorizations()) {
-            log.info("Invoice process with etran login: {}", etranAuthorization.getLogin());
+        final String token = esbAuthService.getToken();
+        if (token == null) {
+            log.info("End Invoice processing. Token for ESB not received.");
+            return;
+        }
+        for (EtranAuthorization etranAuthorization : etranAuthConfigs.getData()) {
+            log.info("Invoice process with ETRAN login: {}", etranAuthorization.getLogin());
             InvoiceStatusResponse invoiceStatusFromEtran = etranService.getInvoiceStatus(
                     LocalDateTime.now(),
                     etranAuthorization.getLogin(),
-                    etranAuthorization.getPassword()
+                    etranAuthorization.getPassword(),
+                    token
             );
-            if (CollectionUtils.isEmpty(invoiceStatusFromEtran.getInvoice())) {
-                log.info("End Invoice processing. Invoice ids from ETRAN is empty.");
-                return;
-            }
-            List<String> invoiceIds = getInvoiceIds(invoiceStatusFromEtran);
-            log.info("Invoice ids from ETRAN: {}", invoiceIds);
-            for (String invoiceId : invoiceIds) {
-                InvoiceResponse invoiceFromEtran = etranService.getInvoice(
-                        invoiceId,
-                        etranAuthorization.getLogin(),
-                        etranAuthorization.getPassword()
+            if (invoiceStatusFromEtran == null || CollectionUtils.isEmpty(invoiceStatusFromEtran.getInvoice())) {
+                log.info("End Invoice processing with login: {}. Invoice ids from ETRAN is null or empty.",
+                        etranAuthorization.getLogin()
                 );
-                LocalDateTime lastOperDateFromIbpd = ibpdService.getLastOperDateByInvoiceId(invoiceFromEtran.getInvNumber());
-                if (lastOperDateFromIbpd == null) {
-                    log.debug("Set new invoice in IBPD with id: {}", invoiceFromEtran.getInvNumber());
-                    ibpdService.setNewInvoice(invoiceFromEtran);
-                    continue;
-                }
-                if (lastOperDateFromIbpd.isBefore(invoiceFromEtran.getLastOperDate())){
-                    log.debug("Update invoice in IBPD with id: {}", invoiceFromEtran.getInvNumber());
-                    ibpdService.updateInvoice(invoiceFromEtran);
-                }
-
+                continue;
             }
-            //second operation, because reload new unique slice should occur after receiving invoices
-            //cacheService.reloadInvoiceIds(invoiceStatusFromEtran.get());
-            log.info("End Invoice processing");
+            for (Invoice invoice : invoiceStatusFromEtran.getInvoice()) {
+                if (needLoadInvoice(invoice)){
+                    loadInvoiceById(token, etranAuthorization, invoice.getInvoiceId().getValue());
+                    cacheService.setLastOperDateByInvoiceId(
+                            invoice.getInvoiceId().getValue(),
+                            invoice.getInvoiceLastOper().getValue()
+                    );
+                }
+            }
+            log.info("End Invoice processing with login: {}. ", etranAuthorization.getLogin());
         }
+        log.info("End Invoice processing.");
     }
 
     /**
-     * @param invoiceStatusFromEtran Response from ETRAN with invoice identifiers
-     * @return Collected list of invoice identifiers
+     * This method processes actual invoice from ETRAN by invoice number.
+     *
+     * @param invoiceId Invoice number for load invoice
      */
-    private static List<String> getInvoiceIds(InvoiceStatusResponse invoiceStatusFromEtran) {
-        return invoiceStatusFromEtran.getInvoice()
-                .stream()
-                .map(Invoice::getInvoiceId)
-                .map(ValueAttribute::getValue)
-                .collect(Collectors.toList());
+    @Override
+    public void processingByInvoiceId(String invoiceId) {
+        log.info("Start Invoice processing by id: {}", invoiceId);
+        final String token = esbAuthService.getToken();
+        if (token == null) {
+            log.info("End Invoice processing. Token for ESB not received.");
+            return;
+        }
+        for (EtranAuthorization etranAuthorization : etranAuthConfigs.getData()) {
+            loadInvoiceById(token, etranAuthorization, invoiceId);
+        }
+        log.info("End Invoice processing by id: {}", invoiceId);
     }
 
+    /**
+     * This method checks for last operation date invoice in CacheService and, based on received date,
+     * decides whether to load invoice.
+     *
+     * @param invoice Object containing invoice number and last operation date for this invoice
+     * @return Flag of need to update invoice with given number
+     */
+    private boolean needLoadInvoice(Invoice invoice) {
+        String lastOperDateByInvoiceId = cacheService.getLastOperDateByInvoiceId(invoice.getInvoiceId().getValue());
+        return lastOperDateByInvoiceId == null ||
+                !lastOperDateByInvoiceId.equalsIgnoreCase(invoice.getInvoiceLastOper().getValue());
+    }
 
     /**
-     * @param invoiceIdsFromEtran Invoice numbers that were returned by IBPD
-     * @param invoiceIdsFromIbpd Invoice numbers that were returned by IBPD
-     * @return List of unique invoice numbers that have appeared in ETRAN from a previous request
+     * @param token Jwt token for authorization in ESB service
+     * @param etranAuthorization Authorization data for ETRAN service
+     * @param invoiceId Invoice number for ETRAN
      */
-    private static List<String> getUniqueInvoiceIds(List<String> invoiceIdsFromEtran, List<String> invoiceIdsFromIbpd) {
-        return invoiceIdsFromEtran.stream()
-                .filter(invoiceId -> !invoiceIdsFromIbpd.contains(invoiceId))
-                .collect(Collectors.toList());
+    private void loadInvoiceById(String token, EtranAuthorization etranAuthorization, String invoiceId) {
+        InvoiceResponse invoiceFromEtran = etranService.getInvoice(
+                invoiceId,
+                etranAuthorization.getLogin(),
+                etranAuthorization.getPassword(),
+                token
+        );
+        LocalDateTime lastOperDateFromIbpd = ibpdService.getLastOperDateByInvoiceId(invoiceFromEtran.getInvNumber());
+        if (lastOperDateFromIbpd == null) {
+            log.info("Set new invoice in IBPD with id: {}", invoiceFromEtran.getInvNumber());
+            ibpdService.setNewInvoice(invoiceFromEtran);
+            return;
+        }
+        if (lastOperDateFromIbpd.isBefore(invoiceFromEtran.getLastOperDate())){
+            log.info("Update invoice in IBPD with id: {}", invoiceFromEtran.getInvNumber());
+            ibpdService.updateInvoice(invoiceFromEtran);
+        }
     }
 
 }

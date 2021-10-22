@@ -1,0 +1,16 @@
+<GetBlockRequest>
+    <Login>%s</Login>
+    <Password>%s</Password>
+    <Text>
+        <getInvoice version="1.0">
+            <invoiceID value="%s"/>
+            <invNumber value="%s"/>
+            <useMod11/>
+            <useArh/>
+            <useVohr/>
+            <UseDocLink value=""/>
+            <useValid/>
+            <useCustomBroker/>
+        </getInvoice>
+    </Text>
+</GetBlockRequest>

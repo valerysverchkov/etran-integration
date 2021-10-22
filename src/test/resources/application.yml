@@ -1,0 +1,37 @@
+scheduled:
+  cron:
+    invoice: 0 0 * * * ?
+service:
+  esb:
+    timeOut: 5
+    requestCnt: 3
+    auth:
+      uri: uriEsbAuth
+      grantType: grantType
+      username: username
+      password: password
+      clientId: clientId
+      clientSecret: clientSecret
+  ibpd:
+    timeOut: 5
+    requestCnt: 3
+    uri:
+      lastOperDate: lastOperDate
+      updateInvoice: updateInvoice
+      newInvoice: newInvoice
+    jwt: jwt
+  etran:
+    auth:
+      data:
+        - login: login1
+          password: pass1
+          valid: true
+        - login: login2
+          password: pass2
+          valid: true
+    uri:
+      url: urlEtran
+      path:
+        invoice: /invoice
+        invoiceStatus: /invoiceStatus
+    cntRequest: 2

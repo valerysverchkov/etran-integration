@@ -1,6 +1,7 @@
 package ru.gpn.etranintegration.service.esb;
 
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -8,14 +9,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import ru.gpn.etranintegration.model.esb.EsbAuthRequest;
 
-@RequiredArgsConstructor
+@Slf4j
 @Service
 class EsbAuthServiceImpl implements EsbAuthService {
-
-    private final RestTemplate templateEtranAuth;
 
     @Value("${service.esb.auth.uri}")
     private String uri;
@@ -35,12 +35,35 @@ class EsbAuthServiceImpl implements EsbAuthService {
     @Value("${service.esb.auth.clientSecret}")
     private String clientSecret;
 
+    @Value("${service.esb.requestCnt}")
+    private int requestCnt;
+
+    private final RestTemplate restEsbAuth;
+
+    public EsbAuthServiceImpl(@Qualifier("restEsbAuth") RestTemplate restEsbAuth) {
+        this.restEsbAuth = restEsbAuth;
+    }
+
     @Override
     public String getToken() {
-        ResponseEntity<String> responseEntityToken = templateEtranAuth.exchange(uri, HttpMethod.POST,
-                prepareEsbAuthRequest(), String.class);
-        //TODO: add error handler
-        return responseEntityToken.getBody();
+        ResponseEntity<String> responseEntityToken;
+        HttpEntity<String> requestHttpEntity = prepareEsbAuthRequest();
+        log.info("Request to ESB Auth service: {}", requestHttpEntity);
+        for (int i = 0; i < requestCnt; i++) {
+            try {
+                responseEntityToken = restEsbAuth.exchange(uri, HttpMethod.POST, requestHttpEntity, String.class);
+            } catch (RestClientException e) {
+                log.error("ESB Auth service received error.", e);
+                continue;
+            }
+            if (responseEntityToken.getStatusCode().is2xxSuccessful() && responseEntityToken.getBody() != null) {
+                log.info("Response from ESB Auth service: {}", responseEntityToken);
+                return responseEntityToken.getBody();
+            } else {
+                log.error("Generate token for etran error. Response: {}", responseEntityToken);
+            }
+        }
+        return null;
     }
 
     private HttpEntity<String> prepareEsbAuthRequest() {
