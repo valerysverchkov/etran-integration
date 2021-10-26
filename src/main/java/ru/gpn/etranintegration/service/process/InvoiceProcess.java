@@ -13,7 +13,6 @@ import ru.gpn.etranintegration.service.cache.CacheService;
 import ru.gpn.etranintegration.service.esb.EsbAuthService;
 import ru.gpn.etranintegration.service.etran.EtranService;
 import ru.gpn.etranintegration.service.ibpd.IbpdService;
-
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -38,7 +37,7 @@ class InvoiceProcess implements Process {
             log.info("End Invoice processing. Token for ESB not received.");
             return;
         }
-        for (EtranAuthorization etranAuthorization : etranAuthConfigs.getData()) {
+        for (EtranAuthorization etranAuthorization : etranAuthConfigs.getCredential()) {
             log.info("Invoice process with ETRAN login: {}", etranAuthorization.getLogin());
             InvoiceStatusResponse invoiceStatusFromEtran = etranService.getInvoiceStatus(
                     LocalDateTime.now(),
@@ -79,7 +78,7 @@ class InvoiceProcess implements Process {
             log.info("End Invoice processing. Token for ESB not received.");
             return;
         }
-        for (EtranAuthorization etranAuthorization : etranAuthConfigs.getData()) {
+        for (EtranAuthorization etranAuthorization : etranAuthConfigs.getCredential()) {
             loadInvoiceById(token, etranAuthorization, invoiceId);
         }
         log.info("End Invoice processing by id: {}", invoiceId);

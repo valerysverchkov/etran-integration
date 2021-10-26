@@ -7,11 +7,11 @@ import ru.gpn.etranintegration.model.etran.auth.EtranAuthorization;
 
 import java.util.List;
 
-@ConfigurationProperties("service.etran.auth")
+@ConfigurationProperties("service.esb.etran.auth")
 @Data
 @Configuration
 public class EtranAuthConfig {
 
-    List<EtranAuthorization> data;
+    List<EtranAuthorization> credential;
 
 }

@@ -61,7 +61,7 @@ class InvoiceProcessTest {
         etranAuthorization.setPassword(AUTH);
         etranAuthorizations.add(etranAuthorization);
 
-        when(etranAuthConfig.getData()).thenReturn(etranAuthorizations);
+        when(etranAuthConfig.getCredential()).thenReturn(etranAuthorizations);
         when(esbAuthService.getToken()).thenReturn(TOKEN);
         when(etranService.getInvoiceStatus(any(LocalDateTime.class), eq(AUTH), eq(AUTH), eq(TOKEN)))
                 .thenReturn(invoiceStatusResponse);
@@ -118,7 +118,7 @@ class InvoiceProcessTest {
         etranAuthorization.setPassword(AUTH);
         etranAuthorizations.add(etranAuthorization);
 
-        when(etranAuthConfig.getData()).thenReturn(etranAuthorizations);
+        when(etranAuthConfig.getCredential()).thenReturn(etranAuthorizations);
         when(esbAuthService.getToken()).thenReturn(TOKEN);
         when(etranService.getInvoiceStatus(any(LocalDateTime.class), eq(AUTH), eq(AUTH), eq(TOKEN)))
                 .thenReturn(invoiceStatusResponse);

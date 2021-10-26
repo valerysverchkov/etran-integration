@@ -5,15 +5,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import ru.gpn.etranintegration.model.etran.message.InvoiceResponse;
-import ru.gpn.etranintegration.model.ibpd.LastOperDateResponse;
 import ru.gpn.etranintegration.service.util.DateUtils;
-
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Service

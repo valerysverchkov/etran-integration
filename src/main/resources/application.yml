@@ -1,36 +1,40 @@
+spring:
+  application:
+    name: etran-integrationt
 scheduled:
   cron:
     invoice: ${CRON_INVOICE}
 service:
   esb:
-    timeOut: 5
-    requestCnt: 3
     auth:
+      timeOut: ${ESB_AUTH_TIMEOUT}
+      requestCnt: ${ESB_AUTH_CNT_REQ}
       uri: ${ESB_AUTH_URI}
-      grantType: ${ESB_AUTH_GRANT_TYPE}
-      username: ${ESB_AUTH_USERNAME}
-      password: ${ESB_AUTH_PASSWORD}
-      clientId: ${ESB_AUTH_CLIENT_ID}
-      clientSecret: ${ESB_AUTH_CLIENT_SECRET}
+      cred:
+        grantType: ${ESB_AUTH_GRANT_TYPE}
+        username: ${ESB_AUTH_USERNAME}
+        password: ${ESB_AUTH_PASSWORD}
+        clientId: ${ESB_AUTH_CLIENT_ID}
+        clientSecret: ${ESB_AUTH_CLIENT_SECRET}
+    etran:
+      cntRequest: ${ETRAN_CNT_REQ}
+      timeOut: ${ETRAN_TIMEOUT}
+      uri:
+        invoice: ${ETRAN_PATH_INVOICE}
+        invoiceStatus: ${ETRAN_PATH_INVOICE}
+      auth:
+        credential:
+          - login: ${ETRAN_AUTH_LOGIN_1}
+            password: ${ETRAN_AUTH_PASSWORD_1}
+            valid: ${ETRAN_AUTH_VALID_1}
+          - login: ${ETRAN_AUTH_LOGIN_2}
+            password: ${ETRAN_AUTH_PASSWORD_2}
+            valid: ${ETRAN_AUTH_VALID_2}
   ibpd:
-    timeOut: 5
-    requestCnt: 3
+    timeOut: ${IBPD_TIMEOUT}
+    requestCnt: ${IBPD_CNT_REQ}
     uri:
       lastOperDate: ${IBPD_URI_LAST_OPER_DATE}
       updateInvoice: ${IBPD_URI_UPDATE_INVOICE}
       newInvoice: ${IBPD_URI_NEW_INVOICE}
     jwt: ${IBPD_JWT}
-  etran:
-    auth:
-      -
-        login: ${ETRAN_AUTH_LOGIN_1}
-        password: ${ETRAN_AUTH_PASSWORD_1}
-      -
-        login: ${ETRAN_AUTH_LOGIN_2}
-        password: ${ETRAN_AUTH_PASSWORD_2}
-    uri:
-      url: ${ETRAN_URL}
-      path:
-        invoice: ${ETRAN_PATH_INVOICE}
-        invoiceStatus: ${ETRAN_PATH_INVOICE}
-    cntRequest: ${ETRAN_CNT_REQ}

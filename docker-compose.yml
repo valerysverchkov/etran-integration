@@ -9,40 +9,30 @@ services:
       dockerfile: Dockerfile
     environment:
       - CRON_INVOICE="0 0 * * * ?"
+      - ESB_AUTH_TIMEOUT="5"
+      - ESB_AUTH_CNT_REQ="3"
       - ESB_AUTH_URI="https://sso-esb-sso-kspd.apps.esb-t.gazprom-neft.local/auth/realms/demorealm/protocol/openid-connect/token"
       - ESB_AUTH_GRANT_TYPE="password"
       - ESB_AUTH_USERNAME="luis-mci"
       - ESB_AUTH_PASSWORD="test"
       - ESB_AUTH_CLIENT_ID="luis"
       - ESB_AUTH_CLIENT_SECRET=""
-      - IBPD_URL=""
+      - ETRAN_CNT_REQ="3"
+      - ETRAN_TIMEOUT="5"
+      - ETRAN_PATH_INVOICE=""
+      - ETRAN_PATH_INVOICE_STATUS=""
+      - ETRAN_AUTH_LOGIN_1=""
+      - ETRAN_AUTH_PASSWORD_1=""
+      - ETRAN_AUTH_VALID_1="true"
+      - ETRAN_AUTH_LOGIN_2=""
+      - ETRAN_AUTH_PASSWORD_2=""
+      - ETRAN_AUTH_VALID_2="true"
+      - IBPD_TIMEOUT="5"
+      - IBPD_CNT_REQ="3"
       - IBPD_URI_LAST_OPER_DATE=""
       - IBPD_URI_UPDATE_INVOICE=""
       - IBPD_URI_NEW_INVOICE=""
       - IBPD_JWT=""
-      - ETRAN_AUTH_LOGIN_1=""
-      - ETRAN_AUTH_PASSWORD_1=""
-      - ETRAN_AUTH_LOGIN_2=""
-      - ETRAN_AUTH_PASSWORD_2=""
-      - ETRAN_PATH_INVOICE=""
-      - ETRAN_PATH_INVOICE_STATUS=""
-      - ETRAN_ACTION_INVOICE=""
-      - ETRAN_ACTION_INVOICE_STATUS=""
-      - INFINISPAN_AUTH_LOGIN="admin"
-      - INFINISPAN_AUTH_PASSWORD="admin"
-      - INFINISPAN_SERVER_LIST="etran-int-cache:11222"
-      - INFINISPAN_CACHE_NAME="etran-int"
-    networks:
-      - etran-int
-  data-grid:
-    container_name: etran-int-cache
-    restart: always
-    image: jboss/infinispan-server
-    ports:
-      - "11222:11222"
-    environment:
-      - USER="admin"
-      - PASS="admin"
     networks:
       - etran-int
 

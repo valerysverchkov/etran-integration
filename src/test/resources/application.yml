@@ -3,15 +3,27 @@ scheduled:
     invoice: 0 0 * * * ?
 service:
   esb:
-    timeOut: 5
-    requestCnt: 3
     auth:
+      timeOut: 5
+      requestCnt: 3
       uri: uriEsbAuth
-      grantType: grantType
-      username: username
-      password: password
-      clientId: clientId
-      clientSecret: clientSecret
+      cred:
+        grantType: grantType
+        username: username
+        password: password
+        clientId: clientId
+        clientSecret: clientSecret
+    etran:
+      cntRequest: 2
+      timeOut: 5
+      uri:
+        invoice: invoice
+        invoiceStatus: invoiceStatus
+      auth:
+        credential:
+          - login: login1
+            password: pass1
+            valid: true
   ibpd:
     timeOut: 5
     requestCnt: 3
@@ -20,18 +32,3 @@ service:
       updateInvoice: updateInvoice
       newInvoice: newInvoice
     jwt: jwt
-  etran:
-    auth:
-      data:
-        - login: login1
-          password: pass1
-          valid: true
-        - login: login2
-          password: pass2
-          valid: true
-    uri:
-      url: urlEtran
-      path:
-        invoice: /invoice
-        invoiceStatus: /invoiceStatus
-    cntRequest: 2

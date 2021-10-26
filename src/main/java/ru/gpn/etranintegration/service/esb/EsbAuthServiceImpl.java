@@ -20,23 +20,23 @@ class EsbAuthServiceImpl implements EsbAuthService {
     @Value("${service.esb.auth.uri}")
     private String uri;
 
-    @Value("${service.esb.auth.grantType}")
+    @Value("${service.esb.auth.requestCnt}")
+    private int requestCnt;
+
+    @Value("${service.esb.auth.cred.grantType}")
     private String grantType;
 
-    @Value("${service.esb.auth.username}")
+    @Value("${service.esb.auth.cred.username}")
     private String username;
 
-    @Value("${service.esb.auth.password}")
+    @Value("${service.esb.auth.cred.password}")
     private String password;
 
-    @Value("${service.esb.auth.clientId}")
+    @Value("${service.esb.auth.cred.clientId}")
     private String clientId;
 
-    @Value("${service.esb.auth.clientSecret}")
+    @Value("${service.esb.auth.cred.clientSecret}")
     private String clientSecret;
-
-    @Value("${service.esb.requestCnt}")
-    private int requestCnt;
 
     private final RestTemplate restEsbAuth;
 

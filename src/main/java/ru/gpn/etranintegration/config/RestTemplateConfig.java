@@ -11,10 +11,14 @@ import java.time.Duration;
 @Configuration
 class RestTemplateConfig {
 
-    @Value("${service.esb.timeOut}")
+    @Value("${service.esb.auth.timeOut}")
     private int esbAuthTimeOut;
+
     @Value("${service.ibpd.timeOut}")
     private int ibpdTimeOut;
+
+    @Value("${service.esb.etran.timeOut}")
+    private int esbEtranTimeOut;
 
     @Bean
     public RestTemplate restEsbAuth() {
@@ -29,6 +33,14 @@ class RestTemplateConfig {
         return new RestTemplateBuilder()
                 .setReadTimeout(Duration.ofSeconds(ibpdTimeOut))
                 .setConnectTimeout(Duration.ofSeconds(ibpdTimeOut))
+                .build();
+    }
+
+    @Bean
+    public RestTemplate restEsbEtran() {
+        return new RestTemplateBuilder()
+                .setReadTimeout(Duration.ofSeconds(esbEtranTimeOut))
+                .setConnectTimeout(Duration.ofSeconds(esbEtranTimeOut))
                 .build();
     }
 
