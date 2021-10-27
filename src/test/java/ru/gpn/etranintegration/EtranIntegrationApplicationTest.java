@@ -6,14 +6,25 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
+import ru.gpn.etranintegration.model.esb.EsbAuthRequest;
 import ru.gpn.etranintegration.service.cache.CacheService;
 import ru.gpn.etranintegration.service.process.Process;
+import ru.gpn.etranintegration.service.util.DateUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -58,8 +69,9 @@ class EtranIntegrationApplicationTest {
         mockIbpdService = MockRestServiceServer.createServer(restIbpd);
     }
 
+    //TODO: debugging this test with mock endpoints
     @Test
-    void contextLoads() throws IOException {
+    void testIntegrationProcessingLoadInvoiceToIbpd() throws IOException {
 //        EsbAuthRequest esbAuthRequest = new EsbAuthRequest();
 //        esbAuthRequest.setGrantType("grantType");
 //        esbAuthRequest.setUsername("username");

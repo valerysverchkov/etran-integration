@@ -8,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.gpn.etranintegration.config.EtranAuthConfig;
 import ru.gpn.etranintegration.model.etran.auth.EtranAuthorization;
 import ru.gpn.etranintegration.model.etran.message.invoiceStatus.Invoice;
-import ru.gpn.etranintegration.model.etran.message.InvoiceResponse;
+import ru.gpn.etranintegration.model.etran.message.invoice.InvoiceResponse;
 import ru.gpn.etranintegration.model.etran.message.invoiceStatus.InvoiceStatusResponse;
 import ru.gpn.etranintegration.model.etran.message.ValueAttribute;
 import ru.gpn.etranintegration.service.cache.CacheService;
@@ -59,6 +59,7 @@ class InvoiceProcessTest {
         EtranAuthorization etranAuthorization = new EtranAuthorization();
         etranAuthorization.setLogin(AUTH);
         etranAuthorization.setPassword(AUTH);
+        etranAuthorization.setValid(true);
         etranAuthorizations.add(etranAuthorization);
 
         when(etranAuthConfig.getCredential()).thenReturn(etranAuthorizations);
@@ -116,6 +117,7 @@ class InvoiceProcessTest {
         EtranAuthorization etranAuthorization = new EtranAuthorization();
         etranAuthorization.setLogin(AUTH);
         etranAuthorization.setPassword(AUTH);
+        etranAuthorization.setValid(true);
         etranAuthorizations.add(etranAuthorization);
 
         when(etranAuthConfig.getCredential()).thenReturn(etranAuthorizations);
@@ -126,7 +128,7 @@ class InvoiceProcessTest {
                 .thenReturn(lastOperDate != null ? lastOperDate.minusHours(1L).toString() : null);
 
         InvoiceResponse invoiceResponse = new InvoiceResponse();
-        invoiceResponse.setInvNumber(ID1);
+        invoiceResponse.setInvoiceId(ID1);
         invoiceResponse.setLastOperDate(LocalDateTime.now());
         when(etranService.getInvoice(ID1, AUTH, AUTH, TOKEN)).thenReturn(invoiceResponse);
 

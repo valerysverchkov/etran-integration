@@ -1,5 +1,6 @@
 package ru.gpn.etranintegration.model.etran.message.invoiceStatus;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 import ru.gpn.etranintegration.model.etran.message.ValueAttribute;
 

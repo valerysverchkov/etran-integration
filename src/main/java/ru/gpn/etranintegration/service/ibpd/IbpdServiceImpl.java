@@ -1,13 +1,14 @@
 package ru.gpn.etranintegration.service.ibpd;
 
 import lombok.extern.slf4j.Slf4j;
+import org.json.XML;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import ru.gpn.etranintegration.model.etran.message.InvoiceResponse;
+import ru.gpn.etranintegration.model.etran.message.invoice.InvoiceResponse;
 import ru.gpn.etranintegration.service.util.DateUtils;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -75,8 +76,13 @@ class IbpdServiceImpl implements IbpdService {
     private void sendInvoice(InvoiceResponse invoiceFromEtran, String invoiceUri) {
         ResponseEntity<Void> responseEntity;
         Map<String, String> request = new HashMap<>();
-        request.put(KEY_FOR_INVOICE_MESSAGE, invoiceFromEtran.getMessage());
-        log.info("Set invoice to IBPD with invoice number: {}", invoiceFromEtran.getInvNumber());
+        String jsonMessage = XML.toJSONObject(invoiceFromEtran.getMessage()).toString();
+        if (jsonMessage == null) {
+            log.error("Convert invoice XML to JSON error. Message: {}", invoiceFromEtran.getMessage());
+            return;
+        }
+        request.put(KEY_FOR_INVOICE_MESSAGE, jsonMessage);
+        log.info("Set invoice to IBPD with invoiceId: {}. Message: {}", invoiceFromEtran.getInvoiceId(), request);
         for (int i = 0; i < countRequest; i++) {
             try {
                 responseEntity = restTemplate.postForEntity(invoiceUri, request, Void.class);

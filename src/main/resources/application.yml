@@ -1,9 +1,14 @@
 spring:
   application:
-    name: etran-integrationt
+    name: etran-integration
+
+server:
+  port: ${SERVER_PORT}
+
 scheduled:
   cron:
     invoice: ${CRON_INVOICE}
+    clearCache: ${CRON_CLEAR_CACHE}
 service:
   esb:
     auth:

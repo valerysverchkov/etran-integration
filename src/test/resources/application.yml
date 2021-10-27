@@ -1,6 +1,11 @@
 scheduled:
   cron:
-    invoice: 0 0 * * * ?
+    invoice: 0 0 * * * *
+    clearCache: 0 40 6,18 * * *
+
+server:
+  port: 8080
+
 service:
   esb:
     auth:

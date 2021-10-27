@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class EmbeddedCacheService implements CacheService {
+class EmbeddedCacheService implements CacheService {
 
     private final Map<String, String> cache = new ConcurrentHashMap<>();
 
@@ -21,6 +21,11 @@ public class EmbeddedCacheService implements CacheService {
     @Override
     public void setLastOperDateByInvoiceId(String invoiceId, String lastOperDate) {
         cache.put(invoiceId, lastOperDate);
+    }
+
+    @Override
+    public void clearAll() {
+        cache.clear();
     }
 
 }

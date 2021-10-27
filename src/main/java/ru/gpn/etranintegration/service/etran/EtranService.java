@@ -1,6 +1,6 @@
 package ru.gpn.etranintegration.service.etran;
 
-import ru.gpn.etranintegration.model.etran.message.InvoiceResponse;
+import ru.gpn.etranintegration.model.etran.message.invoice.InvoiceResponse;
 import ru.gpn.etranintegration.model.etran.message.invoiceStatus.InvoiceStatusResponse;
 
 import java.time.LocalDateTime;

@@ -1,9 +1,8 @@
 package ru.gpn.etranintegration.service.ibpd;
 
-import ru.gpn.etranintegration.model.etran.message.InvoiceResponse;
+import ru.gpn.etranintegration.model.etran.message.invoice.InvoiceResponse;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface IbpdService {
 
@@ -12,4 +11,5 @@ public interface IbpdService {
     void setNewInvoice(InvoiceResponse invoiceFromEtran);
 
     void updateInvoice(InvoiceResponse invoiceFromEtran);
+
 }

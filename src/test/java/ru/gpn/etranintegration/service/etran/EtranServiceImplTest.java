@@ -18,9 +18,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 import org.xml.sax.InputSource;
+import ru.gpn.etranintegration.model.etran.GetBlockRequest;
 import ru.gpn.etranintegration.model.etran.GetBlockResponse;
-import ru.gpn.etranintegration.model.etran.message.InvoiceResponse;
+import ru.gpn.etranintegration.model.etran.message.invoice.InvoiceResponse;
 import ru.gpn.etranintegration.model.etran.message.invoiceStatus.InvoiceStatusRequest;
+import ru.gpn.etranintegration.model.etran.message.invoiceStatus.InvoiceStatusRequestWrapper;
 import ru.gpn.etranintegration.model.etran.message.invoiceStatus.InvoiceStatusResponse;
 import ru.gpn.etranintegration.service.util.DateUtils;
 import javax.xml.xpath.XPath;
@@ -30,7 +32,10 @@ import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -48,7 +53,7 @@ class EtranServiceImplTest {
     private XPath xPath;
 
     @Captor
-    private ArgumentCaptor<InvoiceStatusRequest> invoiceStatusCaptor;
+    private ArgumentCaptor<HttpEntity> httpEntityCaptor;
 
     @BeforeAll
     void setUp() {
@@ -78,15 +83,17 @@ class EtranServiceImplTest {
         InvoiceStatusResponse actual = etranService.getInvoiceStatus(now, AUTH, AUTH, TOKEN);
         Assertions.assertEquals(expected, actual);
 
-        verify(xmlMapper, times(2)).writeValueAsString(invoiceStatusCaptor.capture());
+        verify(restEsbEtran, times(2))
+                .exchange(eq(URL), eq(HttpMethod.POST), httpEntityCaptor.capture(), eq(GetBlockResponse.class));
 
         InvoiceStatusRequest invoiceStatusRequestExpected = new InvoiceStatusRequest();
         LocalDateTime fromDate = now.withHour(0).withMinute(0).withSecond(0);
         LocalDateTime toDate = now.withHour(23).withMinute(59).withSecond(59);
         invoiceStatusRequestExpected.setFromDate(DateUtils.convertToValueAttribute(fromDate));
         invoiceStatusRequestExpected.setToDate(DateUtils.convertToValueAttribute(toDate));
-        InvoiceStatusRequest invoiceStatusRequestActual = invoiceStatusCaptor.getValue();
-        Assertions.assertEquals(invoiceStatusRequestExpected, invoiceStatusRequestActual);
+        GetBlockRequest getBlockRequestActual = (GetBlockRequest) httpEntityCaptor.getValue().getBody();
+        InvoiceStatusRequestWrapper invoiceStatusRequestWrapperActual = (InvoiceStatusRequestWrapper) getBlockRequestActual.getMessage();
+        Assertions.assertEquals(invoiceStatusRequestExpected, invoiceStatusRequestWrapperActual.getInvoiceStatusRequest());
     }
 
     @Test
@@ -104,7 +111,7 @@ class EtranServiceImplTest {
         when(xPath.evaluate(anyString(), any(InputSource.class), eq(XPathConstants.STRING))).thenReturn(lastOperDateExpected);
 
         InvoiceResponse actual = etranService.getInvoice(INVOICE_ID, AUTH, AUTH, TOKEN);
-        Assertions.assertEquals(INVOICE_ID, actual.getInvNumber());
+        Assertions.assertEquals(INVOICE_ID, actual.getInvoiceId());
         Assertions.assertEquals(lastOperDate, actual.getLastOperDate());
         Assertions.assertEquals(MESSAGE, actual.getMessage());
         Assertions.assertFalse(actual.isErrorAuth());

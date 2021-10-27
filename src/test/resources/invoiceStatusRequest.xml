@@ -1,10 +1,1 @@
-<GetBlockRequest>
-    <Login>%s</Login>
-    <Password>%s</Password>
-    <Text>
-        <invoiceStatus version="1.0">
-            <fromDate value="%s"/>
-            <toDate value="%s"/>
-        </invoiceStatus>
-    </Text>
-</GetBlockRequest>
+<GetBlockRequest><Login>%s</Login><Password>%s</Password><Text><invoiceStatus><fromDate value="%s"/><toDate value="%s"/></invoiceStatus></Text></GetBlockRequest>

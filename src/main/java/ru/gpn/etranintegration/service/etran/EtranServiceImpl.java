@@ -13,10 +13,12 @@ import org.xml.sax.InputSource;
 import ru.gpn.etranintegration.model.etran.GetBlockRequest;
 import ru.gpn.etranintegration.model.etran.GetBlockResponse;
 import ru.gpn.etranintegration.model.etran.message.Error;
-import ru.gpn.etranintegration.model.etran.message.InvoiceRequest;
-import ru.gpn.etranintegration.model.etran.message.InvoiceResponse;
+import ru.gpn.etranintegration.model.etran.message.invoice.InvoiceRequest;
+import ru.gpn.etranintegration.model.etran.message.invoice.InvoiceRequestWrapper;
+import ru.gpn.etranintegration.model.etran.message.invoice.InvoiceResponse;
 import ru.gpn.etranintegration.model.etran.message.ValueAttribute;
 import ru.gpn.etranintegration.model.etran.message.invoiceStatus.InvoiceStatusRequest;
+import ru.gpn.etranintegration.model.etran.message.invoiceStatus.InvoiceStatusRequestWrapper;
 import ru.gpn.etranintegration.model.etran.message.invoiceStatus.InvoiceStatusResponse;
 import ru.gpn.etranintegration.service.util.DateUtils;
 import javax.xml.xpath.XPath;
@@ -192,15 +194,16 @@ class EtranServiceImpl implements EtranService {
     private HttpEntity<GetBlockRequest> prepareInvoiceRequest(String invoiceId, String login,
                                                   String password, String token) throws JsonProcessingException {
         InvoiceRequest invoiceRequest = new InvoiceRequest();
-        ValueAttribute invNumberValue = new ValueAttribute();
-        invNumberValue.setValue(invoiceId);
-        invoiceRequest.setInvNumber(invNumberValue);
-        String messageStr = xmlMapper.writeValueAsString(invoiceRequest);
+        ValueAttribute invoiceIdValue = new ValueAttribute();
+        invoiceIdValue.setValue(invoiceId);
+        invoiceRequest.setInvoiceId(invoiceIdValue);
+        InvoiceRequestWrapper invoiceRequestWrapper = new InvoiceRequestWrapper();
+        invoiceRequestWrapper.setInvoiceRequest(invoiceRequest);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(HttpHeaders.AUTHORIZATION, TOKEN_HEADER + token);
         httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML_VALUE);
         return new HttpEntity<>(
-                fillGetBlockRequest(messageStr, login, password),
+                fillGetBlockRequest(invoiceRequestWrapper, login, password),
                 httpHeaders);
     }
 
@@ -217,22 +220,23 @@ class EtranServiceImpl implements EtranService {
         LocalDateTime toDate = currentDay.withHour(23).withMinute(59).withSecond(59);
         invoiceStatusRequest.setFromDate(DateUtils.convertToValueAttribute(fromDate));
         invoiceStatusRequest.setToDate(DateUtils.convertToValueAttribute(toDate));
-        String messageStr = xmlMapper.writeValueAsString(invoiceStatusRequest);
+        InvoiceStatusRequestWrapper invoiceStatusRequestWrapper = new InvoiceStatusRequestWrapper();
+        invoiceStatusRequestWrapper.setInvoiceStatusRequest(invoiceStatusRequest);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(HttpHeaders.AUTHORIZATION, TOKEN_HEADER + token);
         httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML_VALUE);
         return new HttpEntity<>(
-                fillGetBlockRequest(messageStr, login, password),
+                fillGetBlockRequest(invoiceStatusRequestWrapper, login, password),
                 httpHeaders);
     }
 
     /**
-     * @param message Marshalled message request
+     * @param message Object message request
      * @param login Login for authentication in ETRAN
      * @param password Password for authentication in ETRAN
      * @return Filled full request message with authentication info for ETRAN
      */
-    private static GetBlockRequest fillGetBlockRequest(String message, String login, String password) {
+    private static GetBlockRequest fillGetBlockRequest(Object message, String login, String password) {
         GetBlockRequest getBlockRequest = new GetBlockRequest();
         getBlockRequest.setMessage(message);
         getBlockRequest.setLogin(login);
@@ -264,7 +268,7 @@ class EtranServiceImpl implements EtranService {
         InputSource messageSource = new InputSource(message);
         String lastOperDate = (String) xPath.evaluate("//getInvoiceReply/invLastOper/@value", messageSource, XPathConstants.STRING);
         InvoiceResponse invoiceResponse = new InvoiceResponse();
-        invoiceResponse.setInvNumber(invoiceId);
+        invoiceResponse.setInvoiceId(invoiceId);
         invoiceResponse.setLastOperDate(DateUtils.convertToLocalDateTime(lastOperDate));
         invoiceResponse.setErrorAuth(false);
         invoiceResponse.setMessage(message);

@@ -7,7 +7,7 @@ import org.springframework.util.CollectionUtils;
 import ru.gpn.etranintegration.config.EtranAuthConfig;
 import ru.gpn.etranintegration.model.etran.auth.EtranAuthorization;
 import ru.gpn.etranintegration.model.etran.message.invoiceStatus.Invoice;
-import ru.gpn.etranintegration.model.etran.message.InvoiceResponse;
+import ru.gpn.etranintegration.model.etran.message.invoice.InvoiceResponse;
 import ru.gpn.etranintegration.model.etran.message.invoiceStatus.InvoiceStatusResponse;
 import ru.gpn.etranintegration.service.cache.CacheService;
 import ru.gpn.etranintegration.service.esb.EsbAuthService;
@@ -38,6 +38,10 @@ class InvoiceProcess implements Process {
             return;
         }
         for (EtranAuthorization etranAuthorization : etranAuthConfigs.getCredential()) {
+            if (!etranAuthorization.isValid()) {
+                log.error("Login {} is bad. Process with this login has been terminated.", etranAuthorization.getLogin());
+                continue;
+            }
             log.info("Invoice process with ETRAN login: {}", etranAuthorization.getLogin());
             InvoiceStatusResponse invoiceStatusFromEtran = etranService.getInvoiceStatus(
                     LocalDateTime.now(),
@@ -51,13 +55,21 @@ class InvoiceProcess implements Process {
                 );
                 continue;
             }
+            if (invoiceStatusFromEtran.isErrorAuth()) {
+                log.error("Login {} is bad. Process with this login has been terminated.", etranAuthorization.getLogin());
+                etranAuthorization.setValid(false);
+                continue;
+            }
             for (Invoice invoice : invoiceStatusFromEtran.getInvoice()) {
-                if (needLoadInvoice(invoice)){
-                    loadInvoiceById(token, etranAuthorization, invoice.getInvoiceId().getValue());
-                    cacheService.setLastOperDateByInvoiceId(
-                            invoice.getInvoiceId().getValue(),
-                            invoice.getInvoiceLastOper().getValue()
-                    );
+                log.info("Process by invoiceId: {}", invoice.getInvoiceId().getValue());
+                if (needLoadInvoice(invoice)) {
+                    boolean successLoad = loadInvoiceById(token, etranAuthorization, invoice.getInvoiceId().getValue());
+                    if (successLoad) {
+                        cacheService.setLastOperDateByInvoiceId(
+                                invoice.getInvoiceId().getValue(),
+                                invoice.getInvoiceLastOper().getValue()
+                        );
+                    }
                 }
             }
             log.info("End Invoice processing with login: {}. ", etranAuthorization.getLogin());
@@ -79,6 +91,10 @@ class InvoiceProcess implements Process {
             return;
         }
         for (EtranAuthorization etranAuthorization : etranAuthConfigs.getCredential()) {
+            if (etranAuthorization.isValid()) {
+                log.error("Login {} is bad. Process with this login has been terminated.", etranAuthorization.getLogin());
+                continue;
+            }
             loadInvoiceById(token, etranAuthorization, invoiceId);
         }
         log.info("End Invoice processing by id: {}", invoiceId);
@@ -101,24 +117,31 @@ class InvoiceProcess implements Process {
      * @param token Jwt token for authorization in ESB service
      * @param etranAuthorization Authorization data for ETRAN service
      * @param invoiceId Invoice number for ETRAN
+     * @return success of loading invoice into IBPD service
      */
-    private void loadInvoiceById(String token, EtranAuthorization etranAuthorization, String invoiceId) {
+    private boolean loadInvoiceById(String token, EtranAuthorization etranAuthorization, String invoiceId) {
         InvoiceResponse invoiceFromEtran = etranService.getInvoice(
                 invoiceId,
                 etranAuthorization.getLogin(),
                 etranAuthorization.getPassword(),
                 token
         );
-        LocalDateTime lastOperDateFromIbpd = ibpdService.getLastOperDateByInvoiceId(invoiceFromEtran.getInvNumber());
+        if (invoiceFromEtran.isErrorAuth()) {
+            log.error("Login {} is bad. Process with this login has been terminated.", etranAuthorization.getLogin());
+            etranAuthorization.setValid(false);
+            return false;
+        }
+        LocalDateTime lastOperDateFromIbpd = ibpdService.getLastOperDateByInvoiceId(invoiceFromEtran.getInvoiceId());
         if (lastOperDateFromIbpd == null) {
-            log.info("Set new invoice in IBPD with id: {}", invoiceFromEtran.getInvNumber());
+            log.info("Set new invoice in IBPD with id: {}", invoiceId);
             ibpdService.setNewInvoice(invoiceFromEtran);
-            return;
+            return true;
         }
         if (lastOperDateFromIbpd.isBefore(invoiceFromEtran.getLastOperDate())){
-            log.info("Update invoice in IBPD with id: {}", invoiceFromEtran.getInvNumber());
+            log.info("Update invoice in IBPD with id: {}", invoiceId);
             ibpdService.updateInvoice(invoiceFromEtran);
         }
+        return true;
     }
 
 }

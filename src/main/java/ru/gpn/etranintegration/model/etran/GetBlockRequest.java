@@ -24,6 +24,6 @@ public class GetBlockRequest {
 
     @XmlElement(name = "Text")
     @JsonProperty("Text")
-    private String message;
+    private Object message;
 
 }

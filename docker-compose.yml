@@ -8,7 +8,9 @@ services:
       context: ./
       dockerfile: Dockerfile
     environment:
+      - SERVER_PORT="8080"
       - CRON_INVOICE="0 0 * * * ?"
+      - CRON_CLEAR_CACHE="40 6,18 * * * ?"
       - ESB_AUTH_TIMEOUT="5"
       - ESB_AUTH_CNT_REQ="3"
       - ESB_AUTH_URI="https://sso-esb-sso-kspd.apps.esb-t.gazprom-neft.local/auth/realms/demorealm/protocol/openid-connect/token"
