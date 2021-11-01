@@ -1,22 +1,15 @@
 package ru.gpn.etranintegration.model.etran;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 @Data
-@XmlRootElement(name = "GetBlockResponse")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder={"message", "result"})
 public class GetBlockResponse {
 
-    @XmlElement(name = "Text")
-    private String message;
+    @JsonProperty("Text")
+    private Object message;
 
-    @XmlElement(name = "return")
+    @JsonProperty("return")
     private Boolean result;
 
 }

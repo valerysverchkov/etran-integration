@@ -61,13 +61,13 @@ class InvoiceProcess implements Process {
                 continue;
             }
             for (Invoice invoice : invoiceStatusFromEtran.getInvoice()) {
-                log.info("Process by invoiceId: {}", invoice.getInvoiceId().getValue());
+                log.info("Process by invoiceId: {}", invoice.getInvoiceId());
                 if (needLoadInvoice(invoice)) {
-                    boolean successLoad = loadInvoiceById(token, etranAuthorization, invoice.getInvoiceId().getValue());
+                    boolean successLoad = loadInvoiceById(token, etranAuthorization, invoice.getInvoiceId(), invoice.getInvNumber());
                     if (successLoad) {
                         cacheService.setLastOperDateByInvoiceId(
-                                invoice.getInvoiceId().getValue(),
-                                invoice.getInvoiceLastOper().getValue()
+                                invoice.getInvoiceId(),
+                                invoice.getInvoiceLastOper()
                         );
                     }
                 }
@@ -83,8 +83,8 @@ class InvoiceProcess implements Process {
      * @param invoiceId Invoice number for load invoice
      */
     @Override
-    public void processingByInvoiceId(String invoiceId) {
-        log.info("Start Invoice processing by id: {}", invoiceId);
+    public void processingByInvoiceId(String invoiceId, String invoiceNum) {
+        log.info("Start Invoice processing by id: {} and number: {}", invoiceId, invoiceNum);
         final String token = esbAuthService.getToken();
         if (token == null) {
             log.info("End Invoice processing. Token for ESB not received.");
@@ -95,7 +95,7 @@ class InvoiceProcess implements Process {
                 log.error("Login {} is bad. Process with this login has been terminated.", etranAuthorization.getLogin());
                 continue;
             }
-            loadInvoiceById(token, etranAuthorization, invoiceId);
+            loadInvoiceById(token, etranAuthorization, invoiceId, invoiceNum);
         }
         log.info("End Invoice processing by id: {}", invoiceId);
     }
@@ -108,9 +108,9 @@ class InvoiceProcess implements Process {
      * @return Flag of need to update invoice with given number
      */
     private boolean needLoadInvoice(Invoice invoice) {
-        String lastOperDateByInvoiceId = cacheService.getLastOperDateByInvoiceId(invoice.getInvoiceId().getValue());
+        String lastOperDateByInvoiceId = cacheService.getLastOperDateByInvoiceId(invoice.getInvoiceId());
         return lastOperDateByInvoiceId == null ||
-                !lastOperDateByInvoiceId.equalsIgnoreCase(invoice.getInvoiceLastOper().getValue());
+                !lastOperDateByInvoiceId.equalsIgnoreCase(invoice.getInvoiceLastOper());
     }
 
     /**
@@ -119,9 +119,10 @@ class InvoiceProcess implements Process {
      * @param invoiceId Invoice number for ETRAN
      * @return success of loading invoice into IBPD service
      */
-    private boolean loadInvoiceById(String token, EtranAuthorization etranAuthorization, String invoiceId) {
+    private boolean loadInvoiceById(String token, EtranAuthorization etranAuthorization, String invoiceId, String invoiceNum) {
         InvoiceResponse invoiceFromEtran = etranService.getInvoice(
                 invoiceId,
+                invoiceNum,
                 etranAuthorization.getLogin(),
                 etranAuthorization.getPassword(),
                 token

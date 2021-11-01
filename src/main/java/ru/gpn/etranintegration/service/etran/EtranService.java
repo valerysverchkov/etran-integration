@@ -9,6 +9,6 @@ public interface EtranService {
 
     InvoiceStatusResponse getInvoiceStatus(LocalDateTime currentDay, String login, String password, String token);
 
-    InvoiceResponse getInvoice(String invoiceIds, String login, String password, String token);
+    InvoiceResponse getInvoice(String invoiceId, String invoiceNum, String login, String password, String token);
 
 }

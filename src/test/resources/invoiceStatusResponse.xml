@@ -9,6 +9,14 @@
                 <invNeedForECP value=""/>
                 <invoiceLastOper value="%s"/>
             </invoice>
+            <invoice>
+                <invoiceID value="%s"/>
+                <invNumber value="%s"/>
+                <invoiceStateID value=""/>
+                <invoiceState value=""/>
+                <invNeedForECP value=""/>
+                <invoiceLastOper value="%s"/>
+            </invoice>
             <OperId value=""/>
             <OperDate value=""/>
             <warning value=""/>

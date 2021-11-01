@@ -7,10 +7,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.gpn.etranintegration.config.EtranAuthConfig;
 import ru.gpn.etranintegration.model.etran.auth.EtranAuthorization;
-import ru.gpn.etranintegration.model.etran.message.invoiceStatus.Invoice;
 import ru.gpn.etranintegration.model.etran.message.invoice.InvoiceResponse;
+import ru.gpn.etranintegration.model.etran.message.invoiceStatus.Invoice;
 import ru.gpn.etranintegration.model.etran.message.invoiceStatus.InvoiceStatusResponse;
-import ru.gpn.etranintegration.model.etran.message.ValueAttribute;
 import ru.gpn.etranintegration.service.cache.CacheService;
 import ru.gpn.etranintegration.service.esb.EsbAuthService;
 import ru.gpn.etranintegration.service.etran.EtranService;
@@ -29,6 +28,7 @@ import static org.mockito.Mockito.when;
 class InvoiceProcessTest {
 
     private static final String ID1 = "ID1";
+    private static final String NUM1 = "NUM1";
     private static final String AUTH = "logpass";
     private static final String TOKEN = "token";
 
@@ -104,12 +104,9 @@ class InvoiceProcessTest {
         InvoiceStatusResponse invoiceStatusResponse = new InvoiceStatusResponse();
         ArrayList<Invoice> invoices = new ArrayList<>();
         Invoice invoice = new Invoice();
-        ValueAttribute invoiceId = new ValueAttribute();
-        invoiceId.setValue(ID1);
-        invoice.setInvoiceId(invoiceId);
-        ValueAttribute lastOperDateValue = new ValueAttribute();
-        lastOperDateValue.setValue(lastOperDate != null ? lastOperDate.toString() : null);
-        invoice.setInvoiceLastOper(lastOperDateValue);
+        invoice.setInvoiceId(ID1);
+        invoice.setInvNumber(NUM1);
+        invoice.setInvoiceLastOper(lastOperDate != null ? lastOperDate.toString() : null);
         invoices.add(invoice);
         invoiceStatusResponse.setInvoice(invoices);
 
@@ -130,7 +127,7 @@ class InvoiceProcessTest {
         InvoiceResponse invoiceResponse = new InvoiceResponse();
         invoiceResponse.setInvoiceId(ID1);
         invoiceResponse.setLastOperDate(LocalDateTime.now());
-        when(etranService.getInvoice(ID1, AUTH, AUTH, TOKEN)).thenReturn(invoiceResponse);
+        when(etranService.getInvoice(ID1, NUM1, AUTH, AUTH, TOKEN)).thenReturn(invoiceResponse);
 
         when(ibpdService.getLastOperDateByInvoiceId(ID1)).thenReturn(lastOperDate);
         return invoiceResponse;

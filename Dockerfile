@@ -1,9 +1,18 @@
-FROM adoptopenjdk/openjdk11:alpine-jre
-MAINTAINER Valerii Sverchkov "valerysverchkov@gmail.com"
-ARG JAR_IMAGE=etran-integration-1.0.jar
-ARG JAR_FILE=target/etran-integration-1.0.jar
-ENV JAVA_OPTS="-Xms128M -Xmx1024M"
+FROM artifactory.devops.dev.local/ci-docker-local/dev-base/maven-gpn:latest as MAVEN
+
+COPY pom.xml /build/
+COPY src /build/src/
+
+WORKDIR /build/
+RUN mvn package
+
+FROM artifactory.devops.dev.local/ci-docker-local/dev-base/openjdk-11-rhel7-gpn:latest
+
+ENV APP etran-integration-1.0.jar
+
+RUN mkdir /opt/app
 WORKDIR /opt/app
-COPY ${JAR_FILE} ${JAR_IMAGE}
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "etran-integration-1.0-SNAPSHOT.jar"]
+COPY --from=MAVEN /build/target/${APP} /opt/app
+
+EXPOSE 80
+CMD java -jar /opt/app/${APP}

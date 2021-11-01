@@ -21,8 +21,9 @@ class ProcessController {
     }
 
     @GetMapping("/invoice-by-id")
-    void loadInvoiceById(@RequestParam("invoiceId") String invoiceId) {
-        invoiceProcess.processingByInvoiceId(invoiceId);
+    void loadInvoiceById(@RequestParam("invoiceId") String invoiceId,
+                         @RequestParam("invoiceNum") String invoiceNum) {
+        invoiceProcess.processingByInvoiceId(invoiceId, invoiceNum);
     }
 
 }

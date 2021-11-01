@@ -11,20 +11,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @Data
-@XmlRootElement(name = "getInvoice")
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder={"invoiceId", "invNumber", "useValid"})
 public class InvoiceRequest {
 
-    @XmlElement(name = "invoiceID")
     @JsonProperty("invoiceID")
     private ValueAttribute invoiceId;
 
-    @XmlElement(name = "invNumber")
     @JsonProperty("invNumber")
     private ValueAttribute invNumber;
 
-    @XmlElement(name = "useValid")
     @JsonProperty("useValid")
     private Object useValid;
 

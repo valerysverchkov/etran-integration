@@ -526,7 +526,7 @@
                 <mxCount value=""/>
                 <mxStationType value=""/>
             </invMarx >
-            <invNumber value=""/>
+            <invNumber value="%s"/>
             <invUniqueNumber value=""/>
             <invSignRouteNumCirc value=""/>
             <invRouteNumCirc value=""/>

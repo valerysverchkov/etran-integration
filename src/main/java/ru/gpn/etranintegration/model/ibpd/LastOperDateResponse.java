@@ -1,12 +1,12 @@
 package ru.gpn.etranintegration.model.ibpd;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class LastOperDateResponse {
 
-    private List<String> lastOperDate;
+    @JsonProperty("last_oper_date")
+    private String lastOperDate;
 
 }
