@@ -14,5 +14,5 @@ RUN mkdir /opt/app
 WORKDIR /opt/app
 COPY --from=MAVEN /build/target/${APP} /opt/app
 
-EXPOSE 80
+EXPOSE 8080
 CMD java -jar /opt/app/${APP}
